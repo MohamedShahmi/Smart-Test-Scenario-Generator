@@ -18,19 +18,28 @@
       <input type="text" id="inputFields" required>
 
       <label>Test Types:</label>
-      <select id="testType">
+      <div id="testTypes">
+        <label><input type="checkbox" name="testType" value="positive"> Positive</label>
+        <label><input type="checkbox" name="testType" value="negative"> Negative</label>
+        <label><input type="checkbox" name="testType" value="boundary"> Boundary</label>
+        <label><input type="checkbox" name="testType" value="ui"> UI</label>
+      </div>
+
+      <button type="submit">Generate Scenarios</button>
+
+      <label>Filter by Test Type:</label>
+      <select id="filterType" onchange="displayScenarios()">
+        <option value="all">All</option>
         <option value="positive">Positive</option>
         <option value="negative">Negative</option>
         <option value="boundary">Boundary</option>
         <option value="ui">UI</option>
       </select>
-
-      <button type="submit">Generate Scenarios</button>
     </form>
 
     <div id="resultContainer">
       <h2>📝 All Generated Scenarios:</h2>
-      <ul id="scenarioList"></ul>
+      <div id="scenarioList"></div>
       <div class="button-row">
         <button id="copyBtn" class="left-btn">📋 Copy All</button>
         <button id="pdfBtn" class="right-btn">📄 Download ALL as PDF</button>
@@ -38,7 +47,6 @@
     </div>
   </div>
 
-  <!-- jsPDF CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="script.js"></script>
 </body>

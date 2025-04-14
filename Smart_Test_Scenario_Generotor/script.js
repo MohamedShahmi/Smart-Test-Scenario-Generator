@@ -4,16 +4,26 @@ document.getElementById("testForm").addEventListener("submit", function (e) {
   e.preventDefault();
 
   const feature = document.getElementById("featureName").value.trim();
-  const fields = document.getElementById("inputFields").value.trim().split(",");
-  const type = document.getElementById("testType").value;
+  const fields = document.getElementById("inputFields").value.trim().split(",").map(f => f.trim());
+  const types = Array.from(document.querySelectorAll('input[name="testType"]:checked')).map(cb => cb.value);
 
-  const scenarios = generateScenarios(feature, fields, type);
-  allScenarios.push({
-    feature,
-    testType: type,
-    scenarios
+  if (types.length === 0) {
+    alert("Please select at least one test type.");
+    return;
+  }
+
+  const generated = [];
+
+  types.forEach(type => {
+    const scenarios = generateScenarios(feature, fields, type);
+    generated.push({
+      feature,
+      testType: type,
+      scenarios
+    });
   });
 
+  allScenarios.push(...generated);
   displayScenarios();
   document.getElementById("testForm").reset();
 });
@@ -21,47 +31,60 @@ document.getElementById("testForm").addEventListener("submit", function (e) {
 function generateScenarios(feature, fields, type) {
   const scenarios = [];
 
-  fields.forEach(field => {
-    const trimmedField = field.trim();
-
-    switch (type) {
-      case 'positive':
-        scenarios.push(`Enter valid ${trimmedField} in ${feature} – expect success.`);
-        break;
-      case 'negative':
-        scenarios.push(`Leave ${trimmedField} empty in ${feature} – expect validation error.`);
-        scenarios.push(`Enter invalid ${trimmedField} in ${feature} – expect error.`);
-        break;
-      case 'boundary':
-        scenarios.push(`Enter max characters in ${trimmedField} – check if accepted.`);
-        scenarios.push(`Enter 0 characters in ${trimmedField} – expect failure.`);
-        break;
-      case 'ui':
-        scenarios.push(`Check ${trimmedField} field alignment and label in ${feature}.`);
-        scenarios.push(`Verify ${trimmedField} field responsiveness on mobile.`);
-        break;
-    }
-  });
+  if (type === "positive") {
+    const fieldString = fields.join(" and ");
+    scenarios.push(`User enters valid ${fieldString} in ${feature} – expect success.`);
+  } else {
+    fields.forEach(field => {
+      switch (type) {
+        case "negative":
+          scenarios.push(`Leave ${field} empty in ${feature} – expect validation error.`);
+          scenarios.push(`Enter invalid ${field} in ${feature} – expect error.`);
+          break;
+        case "boundary":
+          scenarios.push(`Enter maximum allowed characters in ${field} – check if accepted.`);
+          scenarios.push(`Enter minimum (or 0) characters in ${field} – expect failure.`);
+          break;
+        case "ui":
+          scenarios.push(`Check alignment and label of ${field} in ${feature}.`);
+          scenarios.push(`Verify responsiveness of ${field} field in ${feature} on mobile.`);
+          break;
+      }
+    });
+  }
 
   return scenarios;
 }
 
 function displayScenarios() {
+  const selectedFilter = document.getElementById("filterType").value;
   const list = document.getElementById("scenarioList");
   list.innerHTML = "";
 
   allScenarios.forEach((group) => {
-    const groupTitle = document.createElement("li");
-    groupTitle.innerHTML = `<strong>Feature: ${group.feature} | Type: ${group.testType}</strong>`;
-    list.appendChild(groupTitle);
+    if (selectedFilter === "all" || group.testType === selectedFilter) {
+      const wrapper = document.createElement("div");
+      wrapper.className = "scenario-box";
 
-    group.scenarios.forEach((scenario) => {
-      const li = document.createElement("li");
-      li.textContent = scenario;
-      list.appendChild(li);
-    });
+      const groupTitle = document.createElement("strong");
+      groupTitle.textContent = `Feature: ${group.feature} | Type: ${group.testType}`;
+      wrapper.appendChild(groupTitle);
+
+      const ul = document.createElement("ul");
+      group.scenarios.forEach((scenario) => {
+        const li = document.createElement("li");
+        li.textContent = scenario;
+        ul.appendChild(li);
+      });
+
+      wrapper.appendChild(ul);
+      list.appendChild(wrapper);
+    }
   });
 }
+
+// Handle Filter Change
+document.getElementById("filterType").addEventListener("change", displayScenarios);
 
 // Copy All Scenarios
 document.getElementById("copyBtn").addEventListener("click", () => {
@@ -70,17 +93,26 @@ document.getElementById("copyBtn").addEventListener("click", () => {
     return;
   }
 
+  const selectedFilter = document.getElementById("filterType").value;
   let textToCopy = "";
+
   allScenarios.forEach((group) => {
-    textToCopy += `Feature: ${group.feature} | Type: ${group.testType}\n`;
-    group.scenarios.forEach((s, i) => {
-      textToCopy += `${i + 1}. ${s}\n`;
-    });
-    textToCopy += `\n`;
+    if (selectedFilter === "all" || group.testType === selectedFilter) {
+      textToCopy += `Feature: ${group.feature} | Type: ${group.testType}\n`;
+      group.scenarios.forEach((s, i) => {
+        textToCopy += `${i + 1}. ${s}\n`;
+      });
+      textToCopy += `\n`;
+    }
   });
 
+  if (textToCopy === "") {
+    alert("No scenarios to copy under current filter.");
+    return;
+  }
+
   navigator.clipboard.writeText(textToCopy).then(() => {
-    alert("All test scenarios copied to clipboard!");
+    alert("Filtered test scenarios copied to clipboard!");
   });
 });
 
@@ -91,19 +123,17 @@ document.getElementById("pdfBtn").addEventListener("click", () => {
     return;
   }
 
+  const selectedFilter = document.getElementById("filterType").value;
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
   let y = 10;
 
-  // Set font: Times New Roman (jsPDF only supports "times" as closest match)
   doc.setFont("times", "bold");
   doc.setFontSize(14);
-
-  const title = "All Generated Test Scenarios";
+  const title = "Generated Test Scenarios";
   const pageWidth = doc.internal.pageSize.getWidth();
   const textWidth = doc.getTextWidth(title);
   const x = (pageWidth - textWidth) / 2;
-
   doc.text(title, x, y);
   y += 10;
 
@@ -111,6 +141,8 @@ document.getElementById("pdfBtn").addEventListener("click", () => {
   doc.setFontSize(12);
 
   allScenarios.forEach((group) => {
+    if (selectedFilter !== "all" && group.testType !== selectedFilter) return;
+
     if (y > 270) {
       doc.addPage();
       y = 10;
@@ -121,7 +153,6 @@ document.getElementById("pdfBtn").addEventListener("click", () => {
     y += 8;
 
     doc.setFont("times", "normal");
-
     group.scenarios.forEach((scenario) => {
       if (y > 280) {
         doc.addPage();
@@ -134,5 +165,5 @@ document.getElementById("pdfBtn").addEventListener("click", () => {
     y += 5;
   });
 
-  doc.save("All_Test_Scenarios.pdf");
+  doc.save("Filtered_Test_Scenarios.pdf");
 });
