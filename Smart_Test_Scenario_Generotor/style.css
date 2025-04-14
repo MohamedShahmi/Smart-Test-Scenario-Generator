@@ -1,0 +1,49 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f4f7ff;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+  }
+  
+  .container {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  input, select, button {
+    padding: 0.5rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+  
+  button {
+    background-color: #4a90e2;
+    color: white;
+    cursor: pointer;
+  }
+  
+  #resultContainer {
+    margin-top: 2rem;
+  }
+  
+  ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+  }
+  
+  #copyBtn {
+    margin-top: 1rem;
+  }
+  

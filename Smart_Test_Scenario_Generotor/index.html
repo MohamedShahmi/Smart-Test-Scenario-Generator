@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Test Scenario Generator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🧪 Smart Test Scenario Generator</h1>
+
+    <form id="testForm">
+      <label>Feature Name:</label>
+      <input type="text" id="featureName" required>
+
+      <label>Input Fields (comma separated):</label>
+      <input type="text" id="inputFields" required>
+
+      <label>Test Types:</label>
+      <select id="testType">
+        <option value="positive">Positive</option>
+        <option value="negative">Negative</option>
+        <option value="boundary">Boundary</option>
+        <option value="ui">UI</option>
+      </select>
+
+      <button type="submit">Generate Scenarios</button>
+    </form>
+
+    <div id="resultContainer">
+      <h2>📝 Generated Scenarios:</h2>
+      <ul id="scenarioList"></ul>
+      <button id="copyBtn">📋 Copy All</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
