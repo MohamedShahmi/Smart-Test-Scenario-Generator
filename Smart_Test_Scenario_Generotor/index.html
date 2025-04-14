@@ -29,12 +29,17 @@
     </form>
 
     <div id="resultContainer">
-      <h2>📝 Generated Scenarios:</h2>
+      <h2>📝 All Generated Scenarios:</h2>
       <ul id="scenarioList"></ul>
-      <button id="copyBtn">📋 Copy All</button>
+      <div class="button-row">
+        <button id="copyBtn" class="left-btn">📋 Copy All</button>
+        <button id="pdfBtn" class="right-btn">📄 Download ALL as PDF</button>
+      </div>
     </div>
   </div>
 
+  <!-- jsPDF CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

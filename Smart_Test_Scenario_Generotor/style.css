@@ -1,49 +1,80 @@
 body {
-    font-family: 'Segoe UI', sans-serif;
-    background: #f4f7ff;
-    color: #333;
-    display: flex;
-    justify-content: center;
-    padding: 2rem;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
   }
   
   .container {
-    background: white;
-    border-radius: 16px;
-    padding: 2rem;
-    max-width: 600px;
-    width: 100%;
+    max-width: 700px;
+    margin: 30px auto;
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
     box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  }
+  
+  h1, h2 {
+    text-align: center;
+    color: #333;
   }
   
   form {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 15px;
   }
   
   input, select, button {
-    padding: 0.5rem;
-    border-radius: 8px;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 6px;
     border: 1px solid #ccc;
   }
   
   button {
-    background-color: #4a90e2;
-    color: white;
     cursor: pointer;
+    transition: background 0.3s;
   }
   
-  #resultContainer {
-    margin-top: 2rem;
+  button:hover {
+    opacity: 0.9;
   }
   
-  ul {
-    list-style-type: disc;
-    padding-left: 1.5rem;
+  #scenarioList {
+    margin-top: 15px;
+    list-style-type: none;
+    padding-left: 0;
   }
   
-  #copyBtn {
-    margin-top: 1rem;
+  #scenarioList li {
+    background: #eef;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 6px;
+  }
+  
+  .button-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .left-btn {
+    background-color: #28a745; /* Green */
+    color: white;
+  }
+  
+  .right-btn {
+    background-color: #dc3545; /* Red */
+    color: white;
+  }
+  
+  .left-btn:hover {
+    background-color: #218838;
+  }
+  
+  .right-btn:hover {
+    background-color: #c82333;
   }
   
