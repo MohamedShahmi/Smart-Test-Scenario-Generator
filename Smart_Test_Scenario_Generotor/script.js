@@ -49,6 +49,10 @@ function generateScenarios(feature, fields, type) {
           scenarios.push(`Check alignment and label of ${field} in ${feature}.`);
           scenarios.push(`Verify responsiveness of ${field} field in ${feature} on mobile.`);
           break;
+        case "navigation":
+          scenarios.push(`Click ${field} in ${feature} – should navigate to correct page.`);
+          scenarios.push(`Verify back button returns to previous page from ${feature}.`);
+          break;
       }
     });
   }
@@ -83,10 +87,7 @@ function displayScenarios() {
   });
 }
 
-// Handle Filter Change
-document.getElementById("filterType").addEventListener("change", displayScenarios);
-
-// Copy All Scenarios
+// Copy All
 document.getElementById("copyBtn").addEventListener("click", () => {
   if (allScenarios.length === 0) {
     alert("No scenarios to copy!");
@@ -116,7 +117,7 @@ document.getElementById("copyBtn").addEventListener("click", () => {
   });
 });
 
-// Download All as PDF
+// Download as PDF
 document.getElementById("pdfBtn").addEventListener("click", () => {
   if (allScenarios.length === 0) {
     alert("No scenarios to export!");
