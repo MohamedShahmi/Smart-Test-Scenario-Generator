@@ -35,7 +35,7 @@ function generateScenarios(feature, fields, type) {
     const fieldString = fields.join(" and ");
     scenarios.push(`User enters valid ${fieldString} in ${feature} – expect success.`);
   } else {
-    fields.forEach(field => {
+    fields.forEach((field) => {
       switch (type) {
         case "negative":
           scenarios.push(`Leave ${field} empty in ${feature} – expect validation error.`);
@@ -46,18 +46,22 @@ function generateScenarios(feature, fields, type) {
           scenarios.push(`Enter minimum (or 0) characters in ${field} – expect failure.`);
           break;
         case "ui":
-          scenarios.push(`Check alignment and label of ${field} in ${feature}.`);
+          scenarios.push(`Ensure the ${field} label is properly aligned, clearly visible, and correctly associated with the input field in ${feature}.`);
           scenarios.push(`Verify responsiveness of ${field} field in ${feature} on mobile.`);
           break;
         case "navigation":
           scenarios.push(`Focus on ${field} in ${feature} – ensure the field is active and user can interact.`);
-          scenarios.push(`Check that ${field} in ${feature} is properly aligned with the form flow.`);
           scenarios.push(`Tab through ${feature} fields starting from ${field} – verify correct focus navigation.`);
           scenarios.push(`Enter a value in ${field} and press "Tab" – ensure the next field is focused.`);
-          scenarios.push(`Verify that hitting "Enter" after filling ${field} submits the form correctly in ${feature}.`);
           break;
       }
     });
+
+    // Add one-time navigation scenario after all fields
+    if (type === "navigation" && fields.length > 0) {
+      const allFields = fields.join(", ");
+      scenarios.push(`Verify that hitting "Enter" after filling ${allFields} submits the form correctly in ${feature}.`);
+    }
   }
 
   return scenarios;
