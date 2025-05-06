@@ -1,6 +1,7 @@
 # Smart-Test-Scenario-Generator
 This is a Smart Test Scenario Generator Application using HTML,CSS and JavaScript
 
-![image](https://github.com/user-attachments/assets/256df443-10e4-423b-9c23-e68bbee5d03c)
+![image](https://github.com/user-attachments/assets/82da3844-61ab-4fcc-8149-b5abeebabb1d)
+
 
 
