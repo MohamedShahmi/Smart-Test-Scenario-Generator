@@ -63,6 +63,15 @@ button:hover {
   background-color: #dbefff;
 }
 
+.submit-btn {
+  background-color: #054a8e; 
+  color: white;
+}
+
+.submit-btn:hover {
+  background-color: #083664;
+}
+
 #scenarioList {
   display: flex;
   flex-direction: column;
