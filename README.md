@@ -2,8 +2,7 @@
 
 A smart, user-friendly web app that automates the creation of structured test scenarios based on selected test types. Perfect for **QA engineers** and **testers** aiming to boost efficiency and test coverage with minimal effort.
 
-
-![image](https://github.com/user-attachments/assets/82da3844-61ab-4fcc-8149-b5abeebabb1d)
+![image](https://github.com/user-attachments/assets/3f9588ff-805c-46e5-b6ea-16991646a4ee)
 
 ## ✨ Features
 
